@@ -1,0 +1,11 @@
+<%= form_with(model: message, local: true) do |form| %>
+  <%= render 'shared/error_messages', object: message %>
+
+  <div class="form-group">
+    <%= form.text_area :text, size: '5x10' , class: 'form-control', placeholder: 'Write your text here . . .' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Create message', class: 'btn btn-primary btn-lg center-block' %>
+  </div>
+<% end %>
