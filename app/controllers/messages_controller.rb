@@ -24,11 +24,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        format.html do
-          flash[:success] = 'Message was successfully created.'
-          redirect_to @message
-        end
-
+        format.html { redirect_to @message, notice: 'Message was successfully created.' }
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new }
@@ -42,11 +38,7 @@ class MessagesController < ApplicationController
   def destroy
     @message.destroy
     respond_to do |format|
-      format.html do
-        flash[:success] = 'Message was successfully destroyed.'
-        redirect_to messages_url
-      end
-
+      format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
