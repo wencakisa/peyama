@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  devise_for :users
+
   resources :messages, except: [:edit]
-  root 'messages#new'
+
+  root to: 'messages#new'
 end
