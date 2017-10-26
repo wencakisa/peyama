@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_message, only: [:show, :destroy]
 
   # GET /messages
   # GET /messages.json
@@ -10,6 +10,11 @@ class MessagesController < ApplicationController
   # GET /messages/1
   # GET /messages/1.json
   def show
+    if @message.nil?
+      render :not_found
+    else
+      @message.destroy
+    end
   end
 
   # GET /messages/new
@@ -24,8 +29,8 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
-        format.json { render :show, status: :created, location: @message }
+        format.html { redirect_to messages_url, notice: 'Message was successfully created.' }
+        format.json { render :index, status: :created, location: @message }
       else
         format.html { render :new }
         format.json { render json: @message.errors, status: :unprocessable_entity }
@@ -46,7 +51,7 @@ class MessagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_message
-      @message = Message.find(params[:id])
+      @message = Message.find_by(id: params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
