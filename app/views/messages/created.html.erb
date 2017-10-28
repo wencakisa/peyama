@@ -1,0 +1,14 @@
+<% provide(:title, 'Message created') %>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="text-center">
+      <h1 class="message">Message successfully created!</h1>
+      <br />
+      <p class="description">
+        You can found it on this link:
+        <%= link_to message_url(@message), message_url(@message) %>
+      </p>
+    </div>
+  </div>
+</div>

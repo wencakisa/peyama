@@ -10,9 +10,6 @@
       <%= link_to 'Peyama', root_path, class: 'navbar-brand' %>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li><%= link_to 'Messages', messages_path %></li>
-      </ul>
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
           <li><%= link_to current_user.email, edit_user_registration_path %></li>
