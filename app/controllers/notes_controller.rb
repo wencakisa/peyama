@@ -32,7 +32,6 @@ class NotesController < ApplicationController
 
   private
     def note_params
-      puts "Format: #{request.format.json?}"
       note = params.require(:note)
 
       if request.format.json?
