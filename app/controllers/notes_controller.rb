@@ -1,10 +1,6 @@
 class NotesController < ApplicationController
-  # TODO: Make a confirm "show" page
-
-  # GET /notes/1
-  # GET /notes/1.json
   def show
-    @note = Note.find_by(id: params[:id])
+    @note = Note.find_by token: params[:token]
 
     if @note.nil?
       respond_to do |format|
@@ -16,15 +12,12 @@ class NotesController < ApplicationController
     end
   end
 
-  # GET /notes/new
   def new
     @note = Note.new
   end
 
-  # POST /notes
-  # POST /notes.json
   def create
-    @note = Note.new(note_params)
+    @note = Note.new note_params
 
     respond_to do |format|
       if @note.save
@@ -38,8 +31,14 @@ class NotesController < ApplicationController
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params.require(:note).permit(:text)
+      puts "Format: #{request.format.json?}"
+      note = params.require(:note)
+
+      if request.format.json?
+        { text: note }
+      else
+        note.permit(:text)
+      end
     end
 end
