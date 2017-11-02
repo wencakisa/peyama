@@ -1,9 +1,8 @@
 class NotesController < ApplicationController
   skip_before_action :verify_authenticity_token, if: :api_request?
+  before_action :set_note, only: :show
 
   def show
-    @note = Note.find_by token: params[:token]
-
     if @note.nil?
       render :not_found
     else
@@ -41,6 +40,10 @@ class NotesController < ApplicationController
 
     def api_request?
       xml_request? || json_request?
+    end
+
+    def set_note
+      @note = Note.find_by token: params[:token]
     end
 
     def note_params
