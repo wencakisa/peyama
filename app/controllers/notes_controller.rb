@@ -1,12 +1,11 @@
 class NotesController < ApplicationController
+  skip_before_action :verify_authenticity_token, if: :api_request?
+
   def show
     @note = Note.find_by token: params[:token]
 
     if @note.nil?
-      respond_to do |format|
-        format.html { render :not_found }
-        format.json { render json: 'Not found' }
-      end
+      render :not_found
     else
       @note.destroy
     end
@@ -21,20 +20,37 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       if @note.save
-        format.html { render :created }
-        format.json { render :show, status: :created, location: @note }
+        format.html             { render :created }
+        format.all(:xml, :json) { render :show }
       else
         format.html { render :new }
-        format.json { render json: @note.errors, status: :unprocessable_entity }
+        format.xml  { render xml: @note.errors }
+        format.json { render json: @note.errors }
       end
     end
   end
 
   private
-    def note_params
-      note = params.require(:note)
+    def xml_request?
+      request.format.xml?
+    end
 
-      if request.format.json?
+    def json_request?
+      request.format.json?
+    end
+
+    def api_request?
+      xml_request? || json_request?
+    end
+
+    def note_params
+      note = if xml_request?
+               Nokogiri::XML.fragment(request.body.read).content
+             else
+               params.require(:note)
+             end
+
+      if api_request?
         { text: note }
       else
         note.permit(:text)
