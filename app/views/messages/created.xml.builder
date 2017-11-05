@@ -1,1 +1,1 @@
-xml.url message_url(@message, format: :xml)
+xml.url message_url(@message)
