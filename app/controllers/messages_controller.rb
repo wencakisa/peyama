@@ -1,4 +1,4 @@
-class messagesController < ApplicationController
+class MessagesController < ApplicationController
   skip_before_action :verify_authenticity_token, if: :api_request?
   before_action :set_message, only: :show
 
