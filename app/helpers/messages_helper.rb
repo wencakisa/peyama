@@ -1,2 +1,2 @@
-module NotesHelper
+module MessagesHelper
 end
