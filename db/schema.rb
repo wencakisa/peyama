@@ -10,14 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171102120038) do
+ActiveRecord::Schema.define(version: 20171104093952) do
 
-  create_table "notes", force: :cascade do |t|
+  create_table "messages", force: :cascade do |t|
     t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "token"
-    t.index ["token"], name: "index_notes_on_token", unique: true
+    t.string "password_digest"
+    t.index ["token"], name: "index_messages_on_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|

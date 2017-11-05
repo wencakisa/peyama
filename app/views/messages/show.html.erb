@@ -1,0 +1,11 @@
+<% provide(:title, "Message ##{@message.id}") %>
+
+<div class="text-center">
+  <h1>Message contents</h1>
+  <h4 class="message">(This message was destroyed. If you need to keep it, copy it before closing this window)</h4>
+  <hr/>
+  <h4><%= @message.text %></h4>
+  <% if @message.password_digest %>
+    <p>Password: <%= @message.password_digest %></p>
+  <% end %>
+</div>
