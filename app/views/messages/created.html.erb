@@ -1,14 +1,12 @@
 <% provide(:title, 'Message created') %>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-8 col-md-offset-2">
     <div class="text-center">
       <h1 class="message">Message successfully created!</h1>
       <br />
-      <p class="description">
-        You can found it on this link:
-        <%= link_to message_url(@message), @message, target: :blank %>
-      </p>
+      <p class="description">You can found it here:</p>
+      <input type="text" class="form-control resource-url" value="<%= message_url(@message) %>" />
     </div>
   </div>
 </div>

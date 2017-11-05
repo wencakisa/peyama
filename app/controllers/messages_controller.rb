@@ -19,8 +19,14 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        format.html             { render :created }
-        format.all(:xml, :json) { render :show }
+        if xml_request?
+          format.xml  { render :created }
+        elsif json_request?
+          format.json { render :created }
+        else
+          format.html { render :created }
+        end
+        # format.all(:html, :xml, :json) { render :created }
       else
         format.html { render :new }
         format.xml  { render xml: @message.errors }
@@ -31,11 +37,11 @@ class MessagesController < ApplicationController
 
   private
     def xml_request?
-      request.format.xml?
+      request.content_type =~ /xml/
     end
 
     def json_request?
-      request.format.json?
+      request.content_type =~ /json/
     end
 
     def api_request?
