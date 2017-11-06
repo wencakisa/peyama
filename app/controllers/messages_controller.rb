@@ -26,6 +26,7 @@ class MessagesController < ApplicationController
         else
           format.html { render :created }
         end
+        # Works if Accept-Encoding header is provided
         # format.all(:html, :xml, :json) { render :created }
       else
         format.html { render :new }
@@ -36,12 +37,16 @@ class MessagesController < ApplicationController
   end
 
   private
+    def content_type? param
+      request.content_type =~ /#{param}/
+    end
+
     def xml_request?
-      request.content_type =~ /xml/
+      content_type?(:xml)
     end
 
     def json_request?
-      request.content_type =~ /json/
+      content_type?(:json)
     end
 
     def api_request?
@@ -52,9 +57,13 @@ class MessagesController < ApplicationController
       @message = Message.find_by token: params[:token]
     end
 
+    def node_text_from_xml xml_content, node
+      Nokogiri::XML(xml_content).xpath("//#{node}").text
+    end
+
     def message_params
       message = if xml_request?
-                  Nokogiri::XML.fragment(request.body.read).content
+                  node_text_from_xml request.body, :message
                 else
                   params.require(:message)
                 end
